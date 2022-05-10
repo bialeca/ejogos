@@ -1,4 +1,5 @@
 ﻿using jogo.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace jogo.Controllers
@@ -17,5 +18,22 @@ namespace jogo.Controllers
 
             return View();
         }
+        public IActionResult Cadastrar (IFormCollection form)
+        {
+            //criar novo objeto a partir do front end
+            Equipe novaEquipe = new Equipe();
+
+            novaEquipe.idEquipe = int.Parse(form["IdEquipe"]);
+            novaEquipe.Nome = form["Nome"];
+            novaEquipe.Imagem = form["Imagem"];
+
+            //chama função criar passando um objeto do tipo equipe
+            equipeModel.Criar(novaEquipe);
+
+            ViewBag.Equipes = equipeModel.LerEquipes(); 
+            return LocalRedirect("~/Equipe");
+        }
+
+
     }
 }
